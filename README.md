@@ -38,7 +38,7 @@ public Blob[] getBeads(int P)
 
 Write a main() method in BlobFinder.java that takes an integer P, a double value tau, and the name of a JPEG file as command-line arguments. It then creates a BlobFinder object using a luminance threshold of tau. Next, it prints out all of the beads with at least P pixels; finally, it prints out all of the blobs (beads with at least 1 pixel).\
 Here is a sample run of BlobFinder. Note: In Windows, you need to use backslashes \ to refer to subdirectories, not the Mac/Linux forward slashes / that are used in all of our example commands. For executing your files, use the Terminal/Command Prompt since we'll need features not available in the DrJava console.\
-**% java BlobFinder 25 180.0 run_1/frame00001.jpg**
+**% java BlobFinder 25 180.0 run_1/frame00001.jpg**\
 13 Beads:\
 29 (214.7241,  82.8276)\
 36 (223.6111, 116.6667)\
