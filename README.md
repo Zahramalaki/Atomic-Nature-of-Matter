@@ -8,7 +8,9 @@ https://introcs.cs.princeton.edu/java/assignments/atomic.html
 
 **The data.**  We provide ten datasets, obtained by William Ryu using fluorescent imaging. Each run contains a sequence of two hundred 640-by-480 color JPEG images, frame00000.jpg through frame00199.jpg and is stored in a subdirectory run_1 through run_10.\
  Below is a typical raw image (left) and a cleaned up version (right) using thresholding, as described below.
-![image](https://github.com/Zahramalaki/Atomic-Nature-of-Matter/assets/120048692/0ccb46e0-f8a5-42bd-b253-d5b2f6431c01)\
+ 
+![image](https://github.com/Zahramalaki/Atomic-Nature-of-Matter/assets/120048692/0ccb46e0-f8a5-42bd-b253-d5b2f6431c01)
+
 Each image shows a two-dimensional cross section of a microscope slide. The beads move in and out of the microscope's field of view (the x- and y-directions). Beads also move in the z-direction, so they can move in and out of the microscope's depth of focus; this results in halos, and it can also result in beads completely disappearing from the image.
 
 **Particle identification.** The first challenge is to identify the beads amidst the noisy data. Each image is 640-by-480 pixels, and each pixel is represented by a Color object which needs to be converted to a luminance value ranging from 0.0 (black) to 255.0 (white). Whiter pixels correspond to beads (foreground) and blacker pixels to water (background). We break the problem into three pieces: (i) read in the picture, (ii) classify the pixels as foreground or background, and (iii) find the disc-shaped clumps of foreground pixels that constitute each bead.
@@ -45,7 +47,8 @@ public Blob[] getBeads(int P)
 ```
 
 Write a main() method in BlobFinder.java that takes an integer P, a double value tau, and the name of a JPEG file as command-line arguments. It then creates a BlobFinder object using a luminance threshold of tau. Next, it prints out all of the beads with at least P pixels; finally, it prints out all of the blobs (beads with at least 1 pixel).\
-Here is a sample run of BlobFinder. Note: In Windows, you need to use backslashes \ to refer to subdirectories, not the Mac/Linux forward slashes / that are used in all of our example commands. For executing your files, use the Terminal/Command Prompt since we'll need features not available in the DrJava console.\
+Here is a sample run of BlobFinder. Note: In Windows, you need to use backslashes \ to refer to subdirectories, not the Mac/Linux forward slashes / that are used in all of our example commands. For executing your files, use the Terminal/Command Prompt since we'll need features not available in the DrJava console.
+
 **% java BlobFinder 25 180.0 run_1/frame00001.jpg**\
 13 Beads:\
 29 (214.7241,  82.8276)\
@@ -76,12 +79,14 @@ Here is a sample run of BlobFinder. Note: In Windows, you need to use backslashe
 36 (477.8611,  49.3889)\
 38 (521.7105, 445.8421)\
 35 (588.5714, 402.1143)\
-13 (638.1538, 155.0000)\
+13 (638.1538, 155.0000)
+
 The program identifies 15 blobs in the sample frame, 13 of which are beads. Our string representation of a blob specifies its mass (number of pixels) and its center of mass (in the 640-by-480 picture). By convention, pixels are measured from left-to-right, and from top-to-bottom (instead of bottom-to-top).
 
 **Particle tracking.** The next step is to determine how far a bead moved from one time step t to the next t + Δt. For our data, Δ t = 0.5 seconds per frame. We assume the data is such that each bead moves a relatively small amount, and that two beads do not collide. (However, we must account for the possibility that the bead disappears from the frame, either by departing the microscope's field of view in the x- or y- direction, or moving out of the microscope's depth of focus in the z-direction.) Thus, for each bead at time t + Δt, we calculate the closest bead at time t (in Euclidean distance) and identify these two as the same beads. However, if the distance is too large (greater than delta pixels) we assume that one of the beads has either just begun or ended its journey. We record the displacement that each bead travels in the Δt units of time.
 
-Write a main() method in BeadTracker.java that takes an integer P, a double value tau, a double value delta, and a sequence of JPEG filenames as command-line arguments, identifies the beads (using the specified values of P and tau) in each JPEG image (using BlobFinder), and prints out (one per line, formatted with 4 decimal places to the right of decimal point) the radial displacement that each bead moves from one frame to the next (assuming it is no more than delta). Note that it is not necessary to explicitly track a bead through a sequence of frames—you only need to worry about identifying the same bead in two consecutive frames.\
+Write a main() method in BeadTracker.java that takes an integer P, a double value tau, a double value delta, and a sequence of JPEG filenames as command-line arguments, identifies the beads (using the specified values of P and tau) in each JPEG image (using BlobFinder), and prints out (one per line, formatted with 4 decimal places to the right of decimal point) the radial displacement that each bead moves from one frame to the next (assuming it is no more than delta). Note that it is not necessary to explicitly track a bead through a sequence of frames—you only need to worry about identifying the same bead in two consecutive frames.
+
 **% java BeadTracker 25 180.0 25.0 run_1/*.jpg**\
  7.1833\
  4.7932\
@@ -89,7 +94,8 @@ Write a main() method in BeadTracker.java that takes an integer P, a double valu
  5.5287\
  5.4292\
  4.3962\
-...\
+...
+
 **Data analysis.** Einstein's theory of Brownian motion connects microscopic properties (e.g., radius, diffusivity) of the beads to macroscopic properties (e.g., temperature, viscosity) of the fluid in which the beads are immersed. This amazing theory enables us to estimate Avogadro's number with an ordinary microscope by observing the collective effect of millions of water molecules on the beads.\
 *Estimating the self-diffusion constant.* The self-diffusion constant D characterizes the stochastic movement of a molecule (bead) through a homogeneous medium (the water molecules) as a result of random thermal energy. The Einstein-Smoluchowski equation states that the random displacement of a bead in one dimension has a Gaussian distribution with mean zero and variance σ2 = 2 D Δt, where Δt is the time interval between position measurements. That is, a molecule's mean displacement is zero and its mean square displacement is proportional to the elapsed time between measurements, with the constant of proportionality 2D. We estimate σ2 by computing the variance of all observed bead displacements in the x and y directions. Let (Δx1, Δy1), ..., (Δxn, Δyn) be the n bead displacements, and let r1, ..., rn denote the radial displacements. Then\
 ![image](https://github.com/Zahramalaki/Atomic-Nature-of-Matter/assets/120048692/7a0ec06b-937a-4d90-98e0-a1901868fdf8)\
@@ -102,20 +108,22 @@ T = absolute temperature = 297 degrees Kelvin (room temperature)\
 ρ = radius of bead = 0.5 * 10-6 meters\
 and k is the Boltzmann constant. All parameters are given in SI units. The Boltzmann constant is a fundamental physical constant that relates the average kinetic energy of a molecule to its temperature. We estimate k by measuring all of the parameters in the Stokes-Einstein equation, and solving for k.\
 Estimating Avogadro's number. Avogadro's number NA is defined to be the number of particles in a mole. By definition, k = R / NA, where the universal gas constant R is approximately 8.31457 J K-1 mol-1. Use R / k as an estimate of Avogadro's number.\
-For the final part, write a main() method in Avogadro.java that reads in the displacements from standard input and computes an estimate of Boltzmann's constant and Avogadro's number using the formulas described above.\
-**% more displacements-run_1.txt**_ _ _ _ **% java BeadTracker 25 180.0 25.0 run_1/*.jpg | java Avogadro**
- 7.1833_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _Boltzmann = 1.2535e-23
- 4.7932_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _Avogadro  = 6.6330e+23
- 2.1693\
- 5.5287\
- 5.4292\ 
- 4.3962\
-...\
+For the final part, write a main() method in Avogadro.java that reads in the displacements from standard input and computes an estimate of Boltzmann's constant and Avogadro's number using the formulas described above.
+```
+% more displacements-run_1.txt              % java BeadTracker 25 180.0 25.0 run_1/*.jpg | java Avogadro
+ 7.1833                                     Boltzmann = 1.2535e-23\
+ 4.7932                                     Avogadro  = 6.6330e+23\
+ 2.1693
+ 5.5287
+ 5.4292 
+ 4.3962
+...
+```
 
-**% java Avogadro < displacements-run_1.txt**
+**% java Avogadro < displacements-run_1.txt**\
 Boltzmann = 1.2535e-23\
 Avogadro  = 6.6330e+23\
 **Output formats.** Use four digits to the right of the decimal place for all of your floating point outputs whether they are in floating point format or exponential format.\
-**Running time analysis.** Formulate a hypothesis for the running time (in seconds) of BeadTracker as a function of the input size N (total number of pixels read in across all frames being processed). Justify your hypothesis in your readme.txt file with empirical data.\
+**Running time analysis.** Formulate a hypothesis for the running time (in seconds) of BeadTracker as a function of the input size N (total number of pixels read in across all frames being processed). Justify your hypothesis in your readme.txt file with empirical data.
 
 
