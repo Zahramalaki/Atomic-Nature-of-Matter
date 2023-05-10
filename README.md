@@ -23,7 +23,7 @@ public String toString()         // return string containing this blob's mass an
                                  // of decimal point
 ```
 \
-Next, write a data type BlobFinder that has the following API. Use depth-first search to efficiently identify the blobs.\
+Next, write a data type BlobFinder that has the following API. Use depth-first search to efficiently identify the blobs.
 ## public class BlobFinder
 ```
 // find all blobs in the picture using the luminance threshold tau
